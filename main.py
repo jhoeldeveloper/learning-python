@@ -629,3 +629,448 @@ for question in questions:
 
 score = (score / len(questions)) * 100
 print(f"Your score is {score:.2f}%")
+
+
+# Dictionary = {key:value} unordered, changeable and indexed. No duplicate members
+
+capitals = {"USA":"Washington D.C.",
+            "UK":"London",
+            "France":"Paris",
+            "Germany":"Berlin"}
+
+print(capitals["USA"])
+print(capitals.get("USA"))
+
+if capitals.get("Italy") == None:
+    print("That capital does not exist")
+else:
+    print("That capital exists")
+
+capitals.update({"USA":"WDC"})
+capitals.update({"France":"ps"})
+capitals.pop("UK")
+capitals.popitem() # remove last item
+#capitals.clear()
+print(capitals.keys())
+
+for key in capitals.keys():
+    print(key)
+
+print(capitals.values())
+
+for value in capitals.values():
+    print(value)
+
+for key,value in capitals.items():
+    print(f"{key}: {value}")
+
+
+# Concession stand program
+
+menu = {"hotdog":1.99,
+        "hamburger":2.49,
+        "fries":1.49,
+        "soda":0.99,
+        "water":0.49,
+        "ice cream":1.99,
+        "candy":0.99,
+        "popcorn":1.49}
+
+cart = []
+total = 0
+
+print("==== Menu ====")
+for key,value in menu.items():
+    print(f"{key:10}: ${value:.2f}")
+
+while True:
+    food = input("Enter a food to buy (q to quit): ")
+    if food.lower() == "q":
+        break
+    else:
+        if food in menu:
+            cart.append(food)
+            total += menu[food]
+        else:
+            print("That food does not exist")
+
+print(f"Total: ${total:.2f}")
+
+
+# Random numbers
+
+import random
+
+options = ["rock","paper","scissors"]
+cards = [2,3,4,5,6,7,8,9,10,"J","Q","K","A"]
+
+print(random.random())
+print(random.randint(1,10)) # low and high
+print(random.choice(options))
+random.shuffle(cards)
+print(cards)
+
+# Number guessing game
+
+import random
+
+lowest = 1
+highest = 10
+answer = random.randint(lowest,highest)
+guesses = 0
+is_running = True
+
+print(f"Guess a number between {lowest} and {highest}")
+
+while is_running:
+    guess = input("Enter your guess: ")
+    if guess.isdigit():
+        guess = int(guess)
+        guesses += 1
+        if guess < lowest or guess > highest:
+            print("That number is not in the range")
+            print(f"Guess a number between {lowest} and {highest}")
+        elif guess < answer:
+            print("TOO LOW")
+        elif guess > answer:
+            print("TOO HIGH")
+        else:
+            print(f"Correct! The answer was {answer}")
+            print(f"It took you {guesses} guesses")
+            is_running = False
+    else:
+        print("Invalid guess")
+        print(f"Guess a number between {lowest} and {highest}")
+
+
+
+# Rock, paper, scissors game
+
+import random
+options = ["rock","paper","scissors"]
+
+running = True
+
+while running:
+    player = None
+    computer = random.choice(options)
+
+    while player not in options:
+        player = input("Enter rock, paper or scissors: ").lower()
+
+    print(f"Computer chose {computer}")
+    print(f"you chose {player}")
+
+    if player == computer:
+        print("It's a tie")
+    elif player == "rock" and computer == "scissors":
+        print("you win!")
+    elif player == "scissors" and computer == "paper":
+        print("you win!")
+    elif player == "paper" and computer == "rock":
+        print("you win!")
+    else:
+        print("you lose!")
+
+    if not input("Play again? (y/n): ").lower() == "y":
+        running = False
+
+print("Thanks for playing!")
+
+
+# Dice rolling game
+
+import random
+
+# print("\u25CF \u250C \u2500 \u2510 \u2502 \u2514 \u2518")
+
+# ● ┌ ─ ┐ │ └ ┘
+
+"┌───────┐"
+"│       │"
+"│       │"
+"│       │"
+"└───────┘"
+
+dice_art ={ 1: ["┌───────┐",
+                "│       │",
+                "│   ●   │",
+                "│       │",
+                "└───────┘"],
+            2: ["┌───────┐",
+                "│ ●     │",
+                "│       │",
+                "│     ● │",
+                "└───────┘"],
+            3: ["┌───────┐",
+                "│ ●     │",
+                "│   ●   │",
+                "│     ● │",
+                "└───────┘"],
+            4: ["┌───────┐",
+                "│ ●   ● │",
+                "│       │",
+                "│ ●   ● │",
+                "└───────┘"],
+            5: ["┌───────┐",
+                "│ ●   ● │",
+                "│   ●   │",
+                "│ ●   ● │",
+                "└───────┘"],
+            6: ["┌───────┐",
+                "│ ●   ● │",
+                "│ ●   ● │",
+                "│ ●   ● │",
+                "└───────┘"]}
+rolled_values = []
+total = 0
+
+attempts = int(input("How many dice would you like to roll?"))
+for x in range(attempts):
+    roll = random.randint(1,6)
+    rolled_values.append(roll)
+
+for value in range(5):
+    for roll in rolled_values:
+        print(dice_art[roll][value], end=" ")
+    print()
+
+for roll in rolled_values:
+    total += roll
+
+print(f"Total: {total}")
+
+
+
+# functions - positional arguments
+
+def display_invoice(username,amount,due_date):
+    print(f"Hello {username}")
+    print(f"Your invoice amount is {amount}")
+    print(f"Please pay by {due_date}")
+
+display_invoice("Neo",100,"01/01/2022")
+
+def add(x,y):
+    return x + y
+
+def subtract(x,y):
+    return x - y
+
+def multiply(x,y):
+    return x * y
+
+def divide(x,y):
+    return x / y
+
+print(add(5,3))
+print(subtract(5,3))
+print(multiply(5,3))
+print(divide(5,3))
+
+
+def create_name(first_name,last_name):
+    return f"{first_name.capitalize()} {last_name.capitalize()}"
+
+full_name = create_name("john","doe")
+print(full_name)
+
+# functions - default arguments
+
+def net_price(list_price,discount=0,tax=0.05):
+    return list_price * (1 - discount) * ( 1 + tax)
+
+print(net_price(340))
+print(net_price(340,0.1))
+print(net_price(340,0.1,0.08))
+
+
+import time
+def count(end,start=0):
+    for x in range(start,end+1):
+        print(x)
+        time.sleep(1)
+    print("DONE")
+
+count(10,5)
+
+
+# functions - keyword arguments
+
+def hello(greeting,title,first,last):
+    print(f"{greeting} {title} {first} {last}")
+
+hello("Hello","Mr","John","Doe")
+hello(title="Mr",first="John",last="Doe",greeting="Hello")
+
+# functions - arbitrary arguments
+
+def add(*args):
+    total = 0
+    for num in args:
+        total += num
+    return total
+
+print(add(1,2,3,4,5,6,7,8,9,10))
+
+def display_name(*names):
+    for name in names:
+        print(name, end=" ")
+
+display_name("Dr.","john","jane","joe","jill")
+
+def print_address(**kwargs): # dictionary
+    for key,value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_address(name="john",address="123 main st",city="new york",zip="10001")
+
+
+def shipping_label(*args, **kwargs):
+    for name in args:
+        print(name, end=" ")
+    print()
+    for key,value in kwargs.items():
+        print(f"{key}: {value}")
+
+shipping_label("john","doe",address="123 main st",city="new york",zip="10001")
+
+
+# Iterables
+
+numbers = [1,2,3,4,5,6,7,8,9,10] # list
+
+for num in reversed(numbers):
+    print(num, end=" ")
+
+print()
+
+numbers = (1,2,3,4,5,6,7,8,9,10) # tuple
+
+for num in reversed(numbers):
+    print(num, end=" ")
+
+
+print()
+
+fruits = {"apple","orange","banana", "coconut"} # set
+
+for fruit in fruits:
+    print(fruit, end=" ")
+
+print()
+
+name = "john doe" # string
+
+for letter in name:
+    print(letter, end=" ")
+
+print()
+
+my_dictionary = {"name":"john","age":32,"city":"new york"} # dictionary
+
+for key,value in my_dictionary.items():
+    print(f"{key}: {value}")
+
+
+# Membership operators
+
+word = "APPLE"
+
+letter = input("Guess a letter in the secret word: ")
+
+if letter.upper() in word:
+    print("Correct! The letter is in the word")
+else:
+    print("Incorrect! The letter is not in the word")
+
+
+students = {"john","jane","joe","jill"} # set
+student = input("Enter a student name: ")
+
+if student in students:
+    print(f"{student} was found in the class")
+else:
+    print(f"{student} was not found in the class")
+
+
+grades = {"john":90,"jane":85,"joe":80,"jill":95} # dictionary
+student = input("Enter a student name: ")
+
+if student in grades:
+    print(f"{student} has a grade of {grades[student]}")
+else:
+    print(f"{student} was not found in the class")
+
+
+email = "joe@mail.com"
+
+if "@" in email and "." in email:   
+    print("Valid email address")
+else:
+    print("Invalid email address")
+
+
+# list comprehension
+
+doubles = [x * 2 for x in range(1,11)]
+triples = [x * 3 for x in range(1,11)]
+squares = [x ** 2 for x in range(1,11)]
+print(doubles)
+print(triples)
+print(squares)
+
+
+fruits = ["apple","orange","banana","coconut"]
+upppercase_fruits = [fruit.upper() for fruit in fruits]
+print(upppercase_fruits)
+
+
+numbers = [1,-2,-3,4,5,6,-7,8,9,-10]
+positive_numbers = [num for num in numbers if num > 0]
+negative_numbers = [num for num in numbers if num < 0]
+even_numbers = [num for num in numbers if num % 2 == 0]
+odd_numbers = [num for num in numbers if num % 2 != 0]
+print(positive_numbers)
+print(negative_numbers)
+print(even_numbers)
+print(odd_numbers)
+
+
+grades = [90,85,80,95,100,75,70,65,60]
+passing_grades = [grade for grade in grades if grade >= 70]
+print(passing_grades)
+
+# Match-case (switch) statement
+
+def day_of_week(day):
+    match day:
+        case 1:
+            print("Monday")
+        case 2:
+            print("Tuesday")
+        case 3:
+            print("Wednesday")
+        case 4:
+            print("Thursday")
+        case 5:
+            print("Friday")
+        case 6:
+            print("Saturday")
+        case 7:
+            print("Sunday")
+        case _:
+            print("Invalid day")
+
+day_of_week(1)
+day_of_week(4)
+
+def is_weekend(day):
+    match day:
+        case 6 | 7:
+            print("Weekend")
+        case _:
+            print("Weekday")
+
+is_weekend(1)
+is_weekend(7)
