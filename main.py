@@ -386,3 +386,246 @@ print(f"your number is {num}")
 
 #Python compound interest calculator
 
+principle = 0 
+rate = 0
+time = 0
+
+while True:
+    principle = float(input("Enter the principle amount: "))
+    if principle < 0:
+        print("Principle amount can't be less than 0")
+    else:
+        break
+
+while True:
+    rate = float(input("Enter the interest rate: "))
+    if rate < 0:
+        print("Interest rate can't be less than 0")
+    else:
+        break
+
+while True:
+    time = float(input("Enter the time: "))
+    if time < 0:
+        print("time can't be less than 0")
+    else:
+        break
+
+
+total = principle * pow((1 + rate / 100), time)
+print(f"Balance after {time} years is {total:.2f}")
+
+
+# for loops
+
+for x in range(1,11):
+    print(x)
+
+for x in reversed(range(1,11)):
+    print(x)
+
+for x in range(1,11,2): #(start,end,step)
+    print(x)
+
+credit_card = "1234-5678-9012-3456"
+
+for x in credit_card:
+    print(x)
+
+for x in range(1,21):
+    if x == 13:
+        continue # skip 13
+    else:
+        print(x)
+
+for x in range(1,21):
+    if x == 13:
+        break # stop at 13
+    else:
+        print(x)
+
+
+
+# Python countdown timer
+
+import time
+my_time = int(input("Enter the time in seconds: "))
+for x in range(my_time, 0, -1):
+    seconds = x % 60
+    minutes = int(x / 60) % 60
+    hours = int(x / 3600)
+    print(f"{hours:02}:{minutes:02}:{seconds:02}")
+    time.sleep(1)
+
+print("TIME'S UP!")
+
+# Nested loops
+
+for x in range(3):
+    for y in range(1,10):
+        print(y, end="")
+    print()
+
+rows = int(input("Enter the number of rows: "))
+columns = int(input("Enter the number of columns: "))
+symbol = input("Enter a symbol: ")
+
+for x in range(rows):
+    for y in range(columns):
+        print(symbol, end="")
+    print()
+
+
+# Collections
+
+# List = [] ordered and changagle. Allows duplicate members
+
+fruits = ["apple","orange","banana", "coconut"]
+
+print(fruits[::-1])
+
+for fruit in fruits:
+    print(fruit)
+
+print(len(fruits))
+print("banana" in fruits)
+
+fruits[0] = "pineapple"
+print(fruits)
+
+fruits.append("kiwi")
+print(fruits)
+
+fruits.remove("orange")
+print(fruits)
+
+fruits.insert(1,"cherry")
+print(fruits)
+
+fruits.sort()
+fruits.reverse()
+
+print(fruits.index("kiwi"))
+print(fruits.count("kiwi"))
+
+print(fruits)
+
+#fruits.clear()
+
+#print(dir(fruits))
+#print(help(fruits))
+
+
+# set = {} unordered and immutable. No duplicate members
+
+
+fruits = {"apple","orange","banana", "coconut"}
+print(len(fruits))
+print("banana" in fruits)
+fruits.add("kiwi")
+fruits.remove("orange")
+fruits.pop()
+#fruits.clear()
+print(fruits)
+
+
+# Tuple = () ordered and unchangagle. Allows duplicate members. FASTER
+
+fruits = ("apple","orange","banana", "coconut")
+print(len(fruits))
+print("banana" in fruits)
+print(fruits.index("banana"))
+print(fruits.count("banana"))
+for fruit in fruits:
+    print(fruit)
+
+
+
+
+# Shopping cart program
+
+foods = []
+prices = []
+total = 0
+
+while True:
+    food = input("Enter a food to buy (q to quit): ")
+    if food.lower() == "q":
+        break
+    else:
+        price = float(input("Enter the price of a {food}: $"))
+        foods.append(food)
+        prices.append(price)
+
+print("==== Shopping Cart ====")
+
+for food in foods:
+    print(food, end=" ")
+
+for price in prices:
+    total += price
+
+print(f"\nTotal: ${total:.2f}")
+
+
+# two dimensional list
+
+fruits = ["apple","orange","banana", "coconut"]
+vegetables = ["carrot","broccoli","spinach","kale"]
+meats = ["beef","chicken","pork","lamb"]
+
+groceries = [fruits,vegetables,meats]
+
+
+for collection in groceries:
+    for food in collection:
+        print(food, end=" ")
+    print()
+
+
+# Two dimensional keeypad
+
+num_pad = ((1,2,3),(4,5,6),(7,8,9),("*",0,"#"))
+
+for row in num_pad:
+    for key in row:
+        print(key, end=" ")
+    print()
+
+# Python quiz game
+
+questions = ("How many elements are in the periodic table?",
+            "Which animal lays the largest eggs?",
+            "What is the most abundant gas in the Earth's atmosphere?",
+            "How many bones are in the human body?",
+            "Which planet in the solar system is the hottest?")
+
+options = (("A.116","B.117","C.118","D.119"),
+            ("A.Whale","B.Crocodile","C.Elephant","D.Ostrich"),
+            ("A.Nitrogen","B.Oxigen","C.Carbon-Dioxide","D.Hydrogen"),
+            ("A.206","B.207","C.208","D.209"),
+            ("A.Mercury","B.Venus","C.Earth","D.Mars"))
+
+answers = ("C","D","A","B","B")
+guesses = []
+score = 0
+question_num = 0
+
+for question in questions:
+    print("(------------------)")
+    print(question)
+    for option in options[question_num]:
+        print(option)
+    guess = input("Enter your guess: ").upper()
+    guesses.append(guess)
+    if guess == answers[question_num]:
+        score += 1
+        print("Correct!")
+    else:
+        print("Incorrect!")
+        print(f"The correct answer is {answers[question_num]}")
+
+    question_num += 1
+
+score = (score / len(questions)) * 100
+print(f"Your score is {score:.2f}%")
