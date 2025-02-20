@@ -1813,3 +1813,194 @@ finally:
     print("Do some cleanup here")
 
 
+# File detection
+
+import os
+
+file_path = "files/file.txt"
+file_path2 = "C:\\Users\\User\\Desktop"
+
+
+if os.path.exists(file_path):
+    print(f"The location '{file_path}' exists")
+    if os.path.isfile(file_path):
+        print("That is a file")
+    elif os.path.isdir(file_path):
+        print("That is a directory")
+else:
+    print("The location doesn't exist")
+
+# writting files
+
+txt_data = "I like pizza!"
+file_path = "output.txt"
+
+with open(file=file_path, mode="w") as file: # mode x if file existes, mode a for append content 
+    file.write(txt_data)
+    print(f"txt file {file_path} was created")
+
+employees = ["Eugene","Squidward","Spongebob","Patrick","Sandy"]
+
+try:
+    with open(file_path,"w") as file:
+        for employee in employees:
+            file.write(employee + "\n")
+        print(f"txt file {file_path} was created")
+except FileExistsError:
+    print("That file already exists")
+
+#writing json
+import json
+employees = {"name":"Spongebob","age":30,"job":"cook"}
+
+try:
+    with open(file_path,"w") as file:
+        json.dump(employees,file, indent=4)
+        print(f"txt file {file_path} was created")
+except FileExistsError:
+    print("That file already exists")
+
+# writing csv
+import csv
+employees = [["Name","Age","Job"],
+             ["Spongebob",30,"Cook"],
+             ["Patrick",34,"Unemployed"],
+             ["Sandy",25,"Scientist"]]
+
+try:
+    with open(file_path,"w",newline="") as file:
+        writer = csv.writer(file)
+        for row in employees:
+            writer.writerow(row)
+        print(f"txt file {file_path} was created")
+except FileExistsError:
+    print("That file already exists")
+
+
+# Reading files
+import json
+import csv
+file_path = "output.txt"
+
+try:
+    with open(file_path,"r") as file:
+        #content = file.read()
+        #content = json.load(file)
+        content = csv.reader(file)
+        for line in content:
+            print(f"{line[0]},{line[1]}")
+        print(content)
+except FileNotFoundError:
+    print("That file was not found")
+except PermissionError:
+    print("You do not have permission to read that file")
+
+
+# Date and time
+
+import datetime
+
+date = datetime.date(2025,1,2)
+date = datetime.date.today()
+time = datetime.time(12,30,0)
+time = datetime.datetime.now()
+time = time.strftime("%H:%M:%S %d/%m/%Y")
+
+target_datetime = datetime.datetime(2030,1,2,12,30,0)
+current_datetime = datetime.datetime.now()
+
+print(date)
+print(time)
+
+
+if target_datetime < current_datetime:
+    print("Target date has passed")
+else:
+    print("Target date hasn't passed yet")
+
+
+# Alarm clock
+
+import time
+import datetime
+import pygame
+
+def set_alarm(alarm_time):
+    print(f"Alarma set for {alarm_time}")
+    sound_file = "BuilttoLast.mp3"
+    is_running = True
+
+    while is_running:
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
+        print(current_time)
+
+        if current_time == alarm_time:
+            print("WAKE UP!😫")
+            pygame.mixer.init()
+            pygame.mixer.music.load(sound_file)
+            pygame.mixer.music.play()
+            while pygame.mixer.music.get_busy():
+                time.sleep(1)
+            is_running = False
+        time.sleep(1)
+
+
+alarm_time = input("Enter the alarm time (HH:MM:SS)")
+set_alarm(alarm_time)
+
+
+# Multithreading 
+
+import threading 
+import time
+
+def walk_dog(first,last):
+    time.sleep(8)
+    print(f"you finish walking the {first} {last}")
+
+def take_out_trash():
+    time.sleep(2)
+    print("you take out the trash")
+
+def get_mail():
+    time.sleep(4)
+    print("you get the mail")
+
+
+chore1 = threading.Thread(target=walk_dog, args=("Scooby","Doo"))
+chore1.start()
+chore2 = threading.Thread(target=take_out_trash)
+chore2.start()
+chore3 = threading.Thread(target=get_mail)
+chore3.start()
+
+chore1.join()
+chore2.join()
+chore3.join()
+
+print("All chore are complete")
+
+
+# How to connect to an API 
+
+import requests
+
+base_url = "https://pokeapi.co/api/v2/"
+
+def get_pokemon_info(name):
+    url = f"{base_url}/pokemon/{name}"
+    response = requests.get(url)
+    if response.status_code == 200:
+        pokemon_data = response.json()
+        return pokemon_data
+    else:
+        print(f"Failed to retrieve data {response.status_code}")
+
+pokemon_name = "mew"
+pokemon_info = get_pokemon_info(pokemon_name)
+
+if pokemon_info:
+    print(f"Name: {pokemon_info['name']}")
+    print(f"Id: {pokemon_info['id']}")
+    print(f"Height: {pokemon_info['height']}")
+    print(f"Weight: {pokemon_info['weight']}")
