@@ -1074,3 +1074,280 @@ def is_weekend(day):
 
 is_weekend(1)
 is_weekend(7)
+
+
+# modules
+
+#import math
+import math as m
+from math import pi
+
+print(m.pi)
+print(pi)
+
+
+
+# Varibble scope - scope resolution
+# Local, Enclosing, Global, Built-in
+
+
+def func1():
+    x = 1 # local
+    print(x)
+
+def func2():
+    x = 2 # local
+    print(x)
+
+func1()
+func2()
+
+def func3():
+    x = 3 # enclosed
+    def func4():
+        print(x) # enclosed
+    func4()
+
+func3()
+
+x = 4 # global
+def func5():
+    print(x) # global
+
+def func6():
+    print(x) # global
+
+func5()
+func6()
+
+from math import e
+
+def func7():
+    print(e) # built-in
+
+e = 3
+
+func7()
+
+
+# special variable __name__
+
+def my_function(x):
+    return x * 2
+
+def another_function(y):
+    return y + 1
+
+if __name__ == "__main__":
+    result1 = my_function(5)
+    result2 = another_function(10)
+    print(f"Test results: {result1}, {result2}")
+
+
+# Banking program
+
+def show_balance(balance):
+    print(f"Your balance is ${balance:.2f}")
+
+def deposit():
+    amount = float(input("Enter the amount to deposit: "))
+    if amount <= 0:
+        print("Invalid amount")
+        return 0
+    else:
+        return amount
+
+def withdraw(balance):
+    amount = float(input("Enter the amount to withdraw: "))
+    if amount > balance:
+        print("Insufficient funds")
+    elif amount <= 0:
+        print("Invalid amount")
+    else:
+        return amount
+
+def main():
+    balance = 0
+    is_running = True
+
+    while is_running:
+        print("Banking program")
+        print("1. Show balance")
+        print("2. Deposit")
+        print("3. Withdraw")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            show_balance(balance)
+        elif choice == "2":
+            balance += deposit(balance)
+            show_balance()
+        elif choice == "3":
+            balance -=withdraw(balance)
+            show_balance()
+        elif choice == "4":
+            is_running = False
+        else:
+            print("Invalid choice")
+
+    print("Thank you have a nice day!")
+
+if __name__ == "__main__":
+    main()
+
+# Slot machine program
+
+import random
+
+def spin_row():
+    import random
+    symbols = ["🍒","🍋","🍉","🔔","⭐"]
+    return [random.choice(symbols) for x in range(3)]
+
+def print_row(row):
+    print("****************")
+    print(" | ".join(row))
+    print("****************")
+
+def get_payout(row,bet):
+    payout = 0
+    if row[0] == row[1] == row[2]:
+        if row[0] == "🍒":
+            payout = bet * 3
+        elif row[0] == "🍋":
+            payout = bet * 5
+        elif row[0] == "🍉":
+            payout = bet * 10
+        elif row[0] == "🔔":
+            payout = bet * 20
+        elif row[0] == "⭐":
+            payout = bet * 50
+    return payout
+
+def main():
+    balance = 100
+    print("********************************")
+    print("Symbols: 🍒 🍋 🍉 🔔 ⭐")
+    print("********************************")
+
+    while balance > 0:
+        print(f"Your balance is ${balance}")
+        bet = input("Enter your bet: ")
+        if bet.isdigit():
+            bet = int(bet)
+            if bet > balance:
+                print("Insufficient funds")
+            elif bet <= 0:
+                print("Invalid bet")
+            else:
+                balance -= bet
+                row = spin_row()
+                print_row(row)
+
+                payout = get_payout(row,bet)
+
+                if payout > 0:
+                    balance += payout
+                    print(f"Congratulations! You won ${payout}")
+                else:
+                    print("Better luck next time")
+
+main()
+
+
+# Encryption program
+
+import random
+import string
+
+chars = " " + string.punctuation + string.digits + string.ascii_letters
+chars = list(chars)
+key = chars.copy()
+
+random.shuffle(key)
+
+plain_text = input("Enter a message to encrypt: ")
+encrypted_text = ""
+
+for letter in plain_text:
+    index = chars.index(letter)
+    encrypted_text += key[index]
+    
+print(f"Original message: {plain_text}")
+print(f"Encrypted message: {encrypted_text}")
+
+print("****** reverse *******")
+
+encrypted_text = input(f"Enter a message to decrypt ({encrypted_text}): ")
+decrypt_text = ""
+
+for letter in encrypted_text:
+    index = key.index(letter)
+    decrypt_text += chars[index]
+    
+print(f"Encrypted message: {encrypted_text}")
+print(f"Decrypted message: {decrypt_text}")
+
+
+# Hangman game
+
+import random
+
+words = ("apple","banana","cherry","elderberry","lemon","mango","orange","papaya","raspberry","strawberry","watermelon")
+hangman_art = ["_______",
+            "|     |",
+            "|     O",
+            "|    /|\\",
+            "|    / \\",
+            "|"]
+
+def display_man(wrong_guesses):
+    print("******************")
+    for line in hangman_art[:wrong_guesses]:
+        print(line)
+    print("******************")
+
+def display_hint(hint):
+    print(" ".join(hint))
+
+def display_answer(answer):
+    print(" ".join(answer))
+
+def main():
+    answer = random.choice(words)
+    hint = ["_"] * len(answer)
+    wrong_guesses = 0
+    guessed_letters = ()
+    is_running = True
+
+    while is_running:
+        display_man(wrong_guesses)
+        display_hint(hint)
+        guess = input("Enter a letter: ").lower()
+        if len(guess) > 1 or not guess.isalpha():
+            print("Invalid input")
+            continue
+        if guess in guessed_letters:
+            print(f"{guess} is already guessed")
+
+        if guess in answer:
+            for index in range(len(answer)):
+                if answer[index] == guess:
+                    hint[index] = guess
+        else:
+            wrong_guesses += 1
+
+        if "_" not in hint:
+            display_man(wrong_guesses)
+            display_answer(answer)
+            print("YOU WIN!")
+            is_running = False
+        elif wrong_guesses >= len(hangman_art) - 1:
+            display_man(wrong_guesses)
+            display_answer(answer)
+            print("YOU LOSE!")
+            is_running = False
+
+main()
