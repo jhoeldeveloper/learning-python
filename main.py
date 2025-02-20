@@ -1351,3 +1351,465 @@ def main():
             is_running = False
 
 main()
+
+
+# Object oriented programming
+
+class Car:
+    def __init__(self,model,year,color,for_sale):
+        self.model = model
+        self.color = color
+        self.year = year
+        self.for_sale = for_sale
+    def drive (self):
+        print(f"you drive the {self.color} {self.model}")
+
+    def stop(self):
+        print(f"you stop the {self.color} {self.model}")
+
+    def describe(self):
+        print(f"{self.year} {self.color} {self.model}")
+
+
+car1 = Car("Mustang",2024,"red",False)
+car2 = Car("Corvette",2025,"blue",False)
+car3 = Car("Charger",2024,"yellow",True)
+
+print(car1.model)
+print(car2.color)
+print(car3.year)
+car1.drive()
+car2.stop()
+car1.describe()
+
+
+# classes
+
+class Student:
+
+    class_year = 2024
+    num_students = 0
+
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+        Student.num_students += 1
+
+student1 = Student("jon",20)
+student2 = Student("jane",34)
+student3 = Student("sandy",35)
+student4 = Student("nia",33)
+
+print(student1.name)
+print(student1.age)
+print(student1.class_year)
+print(student1.num_students)
+
+
+# Inheritance
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        self.is_alive = True
+
+    def eat(self):
+        print(f"{self.name} is eating")
+    
+    def sleep(self):
+        print(f"{self.name} is sleeping")
+
+class Dog(Animal):
+    def speak(self):
+        print("WOOF!")
+
+class Cat(Animal):
+    def speak(self):
+        print("MEOW!")
+
+class Mouse(Animal):
+   def speak(self):
+        print("SQUEEK!")
+
+
+dog = Dog("Scooby doo")
+cat = Cat("Garfield")
+mouse = Mouse("Mickey")
+
+
+print(dog.name)
+print(dog.is_alive)
+dog.eat()
+dog.sleep()
+dog.speak()
+
+
+
+# Multiple inheritance
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def eat(self):
+        print(f"{self.name} is eating")
+
+    def sleep(self):
+        print(f"{self.name} is sleeping")
+
+class Prey(Animal):
+    def flee(self):
+        print(f"{self.name} is fleeing")
+
+class Predator(Animal):
+    def hunt(self):
+        print(f"{self.name} is hunting")
+
+class Rabbit(Prey):
+    pass
+
+class Hawk(Predator):
+    pass
+
+class Fish(Prey, Predator):
+    pass
+
+rabbit = Rabbit("Bugs")
+hawk = Hawk("Tony")
+fish = Fish("Nemo")
+
+rabbit.flee()
+hawk.hunt()
+fish.hunt()
+fish.flee()
+
+rabbit.eat()
+hawk.sleep()
+fish.eat()
+
+
+# Super function
+
+class Shape:
+    def __init__(self, color, filled):
+        self.color = color
+        self.filled = filled
+    def describe(self):
+        print(f"It is {self.color} and {'filled' if self.filled else 'not filled'}")
+
+class Circle(Shape):
+    def __init__(self, color, filled, radius):
+        super().__init__(color,filled)
+        self.radius = radius
+    
+    def describe(self):
+        super().describe()
+        print(f"It is circle with an area of {3.14 * self.radius * self.radius} cm2")
+
+
+class Square(Shape):
+    def __init__(self, color, filled, width):
+        super().__init__(color,filled)
+        self.width = width
+
+class Triangle(Shape):
+    def __init__(self, color, filled, width, height):
+        super().__init__(color,filled)
+        self.width = width
+        self.height = height
+
+
+circle = Circle("red", True, 4)
+square = Square(color="blue",filled=True,width=5)
+print(circle.color, circle.filled)
+print(square.color, square.filled)
+
+circle.describe()
+
+
+# Polimorphism => Poly = many; Morphe = form
+# Inheritance
+
+from abc import ABC, abstractmethod
+
+class Shape:
+    @abstractmethod
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self,radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+class Square(Shape):
+    def __init__(self,side):
+        self.side = side
+
+    def area(self):
+        return self.side ** 2
+        
+class Triangle(Shape):
+    def __init__(self,base,height):
+        self.base = base
+        self.height = height
+    
+    def area(self):
+        return self.base * self.height * 0.5
+
+class Pizza(Circle):
+    def __init__(self,topping,radius):
+        super().__init__(radius)
+        self.topping = topping
+        
+
+shapes = [Circle(4), Square(5), Triangle(6,7),Pizza("pepperoni", 15)]
+
+for item in shapes:
+    print(f"{item.area()}cm2")
+
+
+# Polimorphism => Poly = many; Morphe = form
+# Duck typing => "If it look like a duck and quacks like a duck, it must be a duck"
+
+class Animal:
+    alive = True
+
+class Dog(Animal):
+    def speak(self):
+        print("WOOF!")
+
+class Cat(Animal):
+    def speak(self):
+        print("MEOW!")
+
+class Car():
+    alive = False
+    def speak(self):
+        print("HONK!")
+
+animals = [Dog(), Cat(), Car()]
+
+for animal in animals:
+    animal.speak()
+    print(animal.alive)
+
+
+
+# Static methods = A method that belongs to a class rather than any object from that class(instance)
+# Usually used for general utility functions
+
+class Employee:
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position
+
+    def get_info(self):
+        return f"{self.name} = {self.position}"
+
+    @staticmethod
+    def is_valid_position(position):
+        valid_positions = ["Manager", "Cashier", "Cook", "Janitor"]
+        return position in valid_positions
+
+
+employee1 = Employee("Eugune","Manager")
+employee2 = Employee("Squidward","Cashier")
+employee3 = Employee("Spongebob","Cook")
+
+
+print(Employee.is_valid_position("Rocket scientist"))
+print(employee1.get_info())
+print(employee2.get_info())
+print(employee3.get_info())
+
+
+# Class methods
+
+class Student:
+    count = 0
+    total_gpa = 0
+
+    def __init__(self,name,gpa):
+        self.name = name
+        self.gpa = gpa
+        Student.count += 1
+        Student.total_gpa += gpa
+
+    #instance method
+    def get_info(self):
+        return f"{self.name} {self.gpa}"
+
+    @classmethod
+    def get_gount(cls):
+        return f"Total # of students: {cls.count}"
+
+    @classmethod
+    def get_average_gpa(cls):
+        if cls.count == 0:
+            return 0
+        else:
+            return f"Average gpa: {cls.total_gpa/cls.count:.2f}"
+
+student1 = Student("Spongebob",3.2)
+student2 = Student("Patrick",3.2)
+student3 = Student("Sandy",4.0)
+
+print(Student.get_gount())
+print(Student.get_average_gpa())
+
+
+# Magic methods
+
+class Book:
+    def __init__(self,title,author,num_pages):
+        self.title = title
+        self.author = author
+        self.num_pages = num_pages
+
+    def __str__(self):
+        return f"{self.title} by {self.author}"
+
+    def __eq__(self, other):
+        return self.title == other.title and self.author == other.author
+
+    def __lt__(self,other):
+        return self.num_pages < other.num_pages
+    
+    def __gt__(self,other):
+        return self.num_pages > other.num_pages
+    
+    def __add__(self,other):
+        return f"{self.num_pages + other.num_pages} pages"
+
+    def __contains__(self,keyword):
+        return keyword in self.title or keyword in self.author
+
+    def __getitem__(self,key):
+        if key == "title":
+            return self.title
+        if key == "author":
+            return self.author
+        if key == "num_pages":
+            return self.num_pages
+        else:
+            return f"Key {key} was not found"
+    
+
+book0 = Book("The Hobbit","J.R.R. Tolkien", 310)
+book1 = Book("The Hobbit","J.R.R. Tolkien Jr.", 310)
+book2 = Book("Harry Potter and the Philosopher's stone","J.K. Rowling", 223)
+book3 = Book("The Lion, the witch and the wardrobe","C.S. Lewis", 172)
+
+print(book1)
+print(book0 == book1)
+print(book2 < book1)
+print(book2 > book1)
+print(book2 + book1)
+print("Lion" in book3)
+print(book3["title"])
+print(book3["author"])
+print(book3["num_pages"])
+print(book3["rate"])
+
+
+# @property => add aditional logic when read, write, or delete attributes
+
+class Rectangle:
+    def __init__(self,width,height):
+        self._width = width
+        self._height = height
+
+    @property
+    def width(self):
+        return f"{self._width:.1f} cm"
+
+    @property
+    def height(self):
+        return f"{self._height:.1f} cm"
+
+    @width.setter
+    def width(self,new_width):
+        if new_width > 0:
+            self._width = new_width
+        else:
+            print("Width must be greater than zero")
+
+    @height.setter
+    def height(self,new_height):
+        if new_height > 0:
+            self._height = new_height
+        else:
+            print("Height must be greater than zero")
+
+    @width.deleter
+    def width(self):
+        del self._width
+        print("Width has been deleted")
+
+    @height.deleter
+    def height(self):
+        del self._height
+        print("Height has been deleted")
+
+
+rectangle = Rectangle(3,4)
+
+rectangle.width = -2
+rectangle.height = 4
+
+# del rectangle.width
+# del rectangle.height
+
+print(rectangle.width)
+print(rectangle.height)
+
+
+
+# Decorator => a function that extends the bahavior of another function
+
+def add_sprinkles(func):
+    def wrapper(*args,**kwargs):
+        print("*you add sprinkle 🎊*")
+        func(*args,**kwargs)
+    return wrapper
+
+def add_fudge(func):
+    def wrapper(*args,**kwargs):
+        print("*you add fudge 🍫*")
+        func(*args,**kwargs)
+    return wrapper
+
+
+@add_sprinkles
+@add_fudge
+def get_ice_cream(flavor):
+    print(f"Here is your {flavor} ice cream 🍨")
+
+get_ice_cream("vanilla")
+
+
+
+# Exception => an event that interrupts the flow of a program
+
+
+try:
+    number = int(input("Enter a number: "))
+    print(1/number)
+except ZeroDivisionError:
+    print("You can't divide by zero")
+except ValueError:
+    print("Enter only number please.")
+
+
+try:
+    number = int(input("Enter a number: "))
+    print(1/number)
+except Exception:
+    print("something went wrong")
+finally:
+    print("Do some cleanup here")
+
+
